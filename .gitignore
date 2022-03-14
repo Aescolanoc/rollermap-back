@@ -1,6 +1,7 @@
-DS_Store
+#
 .vscode/
-.scannerwork/
+.DS_Store
+.scannerwork
 package-lock.json
 
 # Logs
