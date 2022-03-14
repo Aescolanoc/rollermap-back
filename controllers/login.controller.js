@@ -22,8 +22,8 @@ export const login = async (req, resp, next) => {
           email: userDb.email,
           name: userDb.name,
           id: userDb._id,
-          friends: userDb.favorites,
-          enemies: userDb.myrollerplaces,
+          favorites: userDb.favorites,
+          myrollerplaces: userDb.myrollerplaces,
         });
       } else {
         next(new Error(loginError));
