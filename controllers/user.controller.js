@@ -24,10 +24,7 @@ export const getUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   try {
-    const resp = await User.findOneAndUpdate(
-      { email: req.tokenPayload.email },
-      req.body
-    );
+    const resp = await User.findByIdAndUpdate({ _id: req.params.id }, req.body);
     res.json(resp);
   } catch (error) {
     next(error);

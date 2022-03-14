@@ -33,7 +33,7 @@ describe('Given the user controller', () => {
       });
     });
 
-    describe('When getAllUsers is triggered', () => {
+    describe('When getUser is triggered', () => {
       beforeEach(() => {
         User.find.mockReturnValue({
           populate: jest.fn().mockResolvedValue([]),
@@ -49,7 +49,7 @@ describe('Given the user controller', () => {
     describe('And it not works (promise is rejected)', () => {
       beforeEach(() => {
         User.findOne.mockImplementation(() => {
-          throw new Error('Get All Users not possible');
+          throw new Error('Get User is not possible');
         });
       });
       test('Then call next', async () => {
@@ -68,7 +68,7 @@ describe('Given the user controller', () => {
 
     describe('And it works (promise is resolved)', () => {
       beforeEach(() => {
-        req.body = { email: 'pepe@pepe.es', password: '12345' };
+        req.body = { email: 'pepe@pepe.es', password: '1234' };
         bcrypt.hashSync.mockResolvedValue('encrypted1234');
         User.create.mockReturnValue({
           email: 'pepe@pepe.es',
