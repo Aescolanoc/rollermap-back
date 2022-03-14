@@ -27,10 +27,23 @@ export const getRollerPlaceDetails = async (req, res, next) => {
   }
 };
 
-// export const updateRollerPlaceDetails = async (req, res, next) => {
-//   try {
-//     const resp = await RollerPlace.findByIdAndUpdate()
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+export const updateRollerPlace = async (req, res, next) => {
+  try {
+    const resp = await RollerPlace.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body
+    );
+    res.json(resp);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteRollerPlace = async (req, res, next) => {
+  try {
+    const resp = await RollerPlace.findByIdAndDelete({ _id: req.params.id });
+    res.json(resp);
+  } catch (error) {
+    next(error);
+  }
+};
