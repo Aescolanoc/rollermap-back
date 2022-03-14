@@ -1,4 +1,5 @@
 import { RollerPlace } from '../models/rollerplace.model.js';
+import { User } from '../models/user.model.js';
 
 export const getAllRollerPlaces = async (req, res, next) => {
   try {
@@ -11,10 +12,20 @@ export const getAllRollerPlaces = async (req, res, next) => {
 
 export const getMyRollerPlaces = async (req, res, next) => {
   try {
-    const resp = await RollerPlace.find({ author: req.params.author });
+    const resp = await RollerPlace.find({ author: req.body.id });
     res.json(resp);
   } catch (error) {
     next(error);
+  }
+};
+
+export const insertRollerPlace = async (req, res, next) => {
+  try {
+    const newRollerPlace = new RollerPlace(req.body);
+    const result = await newRollerPlace.save();
+    res.json(result);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -42,6 +53,18 @@ export const updateRollerPlace = async (req, res, next) => {
 export const deleteRollerPlace = async (req, res, next) => {
   try {
     const resp = await RollerPlace.findByIdAndDelete({ _id: req.params.id });
+    res.json(resp);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addToFavorites = async (req, res, next) => {
+  try {
+    const resp = await User.findByIdAndUpdate(
+      { _id: req.body.id },
+      { $addToSet: { favorites: req.params.id } }
+    );
     res.json(resp);
   } catch (error) {
     next(error);
