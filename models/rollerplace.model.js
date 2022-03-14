@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const rollerplaceSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   desciption: { type: String, required: true },
   location: { type: Array, required: true },
   type: { type: String, required: true },
@@ -9,12 +9,10 @@ export const rollerplaceSchema = new mongoose.Schema({
   city: { type: String, required: true },
   image: { type: String, required: true },
   level: { type: String, required: true },
-  author: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-    },
-  ],
+  author: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 export const RollerPlace = mongoose.model('RollerPlace', rollerplaceSchema);
