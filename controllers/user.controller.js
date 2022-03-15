@@ -8,8 +8,8 @@ export const insertUser = async (req, res, next) => {
     const newUser = new User(userData);
     const result = await newUser.save();
     res.json(result);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -17,8 +17,8 @@ export const getUser = async (req, res, next) => {
   try {
     const resp = await User.findOne({ _id: req.params.id });
     res.json(resp);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
