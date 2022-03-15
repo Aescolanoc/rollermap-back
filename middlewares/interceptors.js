@@ -1,5 +1,4 @@
 import { RollerPlace } from '../models/rollerplace.model.js';
-import { User } from '../models/user.model.js';
 import { verifyToken } from '../services/auth.js';
 
 export const loginRequired = (req, res, next) => {
@@ -23,10 +22,10 @@ export const loginRequired = (req, res, next) => {
 };
 
 export const isAuthor = async (req, res, next) => {
-  const userEmail = req.tokenPayload.email;
-  const userToCheck = await User.findOne({ email: userEmail });
-  const rollerplaceToCheck = await RollerPlace.findOne({ _id: req.paramas.id });
-  if (userToCheck._id === rollerplaceToCheck.author) {
+  const rollerPlaceId = req.params.id;
+  const userId = req.tokenPayload.id;
+  const rollerPlace = await RollerPlace.findById(rollerPlaceId);
+  if (rollerPlace?.author.toString() === userId) {
     next();
   } else {
     const userError = new Error('not authorized user');
