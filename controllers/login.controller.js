@@ -6,7 +6,11 @@ export const login = async (req, resp, next) => {
   const userToCheck = req.body;
   const loginError = new Error('user or password invalid');
   loginError.status = 401;
-  const userDb = await User.findOne({ email: userToCheck.email });
+
+  const userDb = await User.findOne({ email: userToCheck.email }).populate([
+    'favorites',
+    'myrollerplaces',
+  ]);
 
   if (!userToCheck.email || !userToCheck.password) {
     next(new Error(loginError));
