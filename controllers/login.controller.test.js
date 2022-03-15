@@ -87,6 +87,19 @@ describe('Given the login controller', () => {
           expect(res.json).toHaveBeenCalledTimes(1);
         });
       });
+
+      describe('And the user email and password are Not OK', () => {
+        test('Then call send', async () => {
+          User.findOne.mockReturnValue({
+            populate: () => Promise.resolve(mockUser),
+          });
+
+          bcrypt.compareSync.mockReturnValue(false);
+          createToken.mockReturnValue('mock_token');
+          await controller.login(req, res, next);
+          expect(next).toHaveBeenCalled();
+        });
+      });
     });
   });
 });
