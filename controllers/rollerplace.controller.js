@@ -21,8 +21,7 @@ export const getMyRollerPlaces = async (req, res, next) => {
 
 export const insertRollerPlace = async (req, res, next) => {
   try {
-    const newRollerPlace = new RollerPlace(req.body);
-    const result = await newRollerPlace.save();
+    const result = RollerPlace.create(req.body);
 
     await User.findOneAndUpdate(
       { _id: req.body.author },
