@@ -23,6 +23,12 @@ export const insertRollerPlace = async (req, res, next) => {
   try {
     const newRollerPlace = new RollerPlace(req.body);
     const result = await newRollerPlace.save();
+
+    await User.findOneAndUpdate(
+      { _id: req.body.author },
+      { $push: { myrollerplaces: result._id } }
+    );
+
     res.json(result);
   } catch (err) {
     next(err);
