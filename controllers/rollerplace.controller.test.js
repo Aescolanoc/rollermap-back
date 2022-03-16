@@ -186,6 +186,7 @@ describe('Given the Rollerplace controller', () => {
       await controller.toggleFavorites(req, res, next);
       expect(res.status).toHaveBeenCalled();
     });
+
     test('Then NOT added id on favorites', async () => {
       req = {
         tokenPayload: { id: '6230ac6352811acc96c1ac9a' },
@@ -208,6 +209,7 @@ describe('Given the Rollerplace controller', () => {
         throw new Error('Add to favorites is not possible');
       });
     });
+
     test('Then call next', async () => {
       await controller.toggleFavorites(req, res, next);
       expect(next).toHaveBeenCalled();

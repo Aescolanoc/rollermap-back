@@ -77,4 +77,23 @@ describe('Given app', () => {
       expect(response.status).toBe(401);
     });
   });
+
+  describe('Testing rest of ROLLERPLACES routes', () => {
+    describe('When GET /rollerplaces ', () => {
+      test('It returns status 200', async () => {
+        const response = await request(app)
+          .get('/rollerplaces')
+          .set('Authorization', 'bearer ' + tokenUser);
+        expect(response.status).toBe(200);
+      });
+    });
+    describe('When GET /rollerplaces/myrollerplaces ', () => {
+      test('It returns status 200', async () => {
+        const response = await request(app)
+          .get('/rollerplaces/myrollerplaces')
+          .set('Authorization', 'bearer ' + tokenUser);
+        expect(response.status).toBe(200);
+      });
+    });
+  });
 });
