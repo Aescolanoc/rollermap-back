@@ -33,3 +33,15 @@ export const isAuthor = async (req, res, next) => {
     next(userError);
   }
 };
+
+export const loggedUserRequired = async (req, res, next) => {
+  const userToUpdateId = req.params.id;
+  const userLoggedId = req.tokenPayload.id;
+  if (userLoggedId === userToUpdateId) {
+    next();
+  } else {
+    const userError = new Error('not authorized user');
+    userError.status = 401;
+    next(userError);
+  }
+};

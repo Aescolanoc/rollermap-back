@@ -81,3 +81,32 @@ describe('Given a route intercepted by isAuthor', () => {
     });
   });
 });
+
+describe('Given a route intercepted by loggedUserRequired', () => {
+  let req;
+  let res;
+  let next;
+  let userError;
+  beforeEach(() => {
+    userError = new Error('not authorized user');
+    userError.status = 401;
+    req = { params: { id: '1' }, tokenPayload: { id: '1' } };
+    res = {};
+    next = jest.fn();
+  });
+
+  describe('When id of user to update is the same of user logged', () => {
+    test('Then call next', async () => {
+      req.tokenPayload.id = '1';
+      await interceptors.loggedUserRequired(req, res, next);
+      expect(next).toHaveBeenCalled();
+    });
+  });
+  describe('When id of user to update is NOT the same of user logged', () => {
+    test('Then call next with error', async () => {
+      req.tokenPayload.id = '2';
+      await interceptors.loggedUserRequired(req, res, next);
+      expect(next).toHaveBeenCalledWith(userError);
+    });
+  });
+});
