@@ -23,26 +23,27 @@ describe('Given the user controller', () => {
   describe('Given the user controller', () => {
     describe('And it not works (promise is rejected)', () => {
       beforeEach(() => {
-        User.find.mockImplementation(() => {
+        User.findById.mockImplementation(() => {
           throw new Error('Get a User not possible');
         });
       });
       test('Then call next', async () => {
         await controller.getUser(req, res, next);
-        expect(next).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalled();
       });
     });
 
     describe('When getUser is triggered', () => {
       beforeEach(() => {
-        User.find.mockReturnValue({
-          populate: jest.fn().mockResolvedValue([]),
+        User.findById.mockReturnValue({
+          populate: jest.fn().mockResolvedValue({}),
         });
       });
 
       test('Then call send', async () => {
+        req.tokenPayload = { id: '623072ff18d99ceeceb2eb83' };
         await controller.getUser(req, res, next);
-        expect(res.json).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalled();
       });
     });
 
