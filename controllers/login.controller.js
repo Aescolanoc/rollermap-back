@@ -23,6 +23,7 @@ export const login = async (req, resp, next) => {
         });
         resp.json({
           token,
+          id: userDb._id,
           email: userDb.email,
           name: userDb.name,
           favorites: userDb.favorites,
