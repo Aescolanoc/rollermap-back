@@ -6,7 +6,10 @@ jobs:
   test:
     name: Test passes
     runs-on: ubuntu-latest
-
+    env:
+      DBUSER: ${{secrets.DBUSER}}
+      DBPASSWORD: ${{secrets.DBPASSWORD}}
+      DBNAMETEST: ${{secrets.DBNAMETEST}}
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
