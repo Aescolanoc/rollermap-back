@@ -70,24 +70,24 @@ describe('Given the Rollerplace controller', () => {
 
   describe('When getMyRollerPlaces is triggered', () => {
     beforeEach(() => {
-      req.body = { id: '623072ff18d99ceeceb2eb83' };
+      req.tokenPayload = { id: '623072ff18d99ceeceb2eb83' };
       RollerPlace.find.mockReturnValue({
         populate: jest.fn().mockResolvedValue([]),
       });
     });
     test('Then call send', async () => {
       await controller.getMyRollerPlaces(req, res, next);
-      expect(res.json).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalled();
     });
   });
 
   describe('When insertRollerPlace functions is triggered', () => {
     test('Then rollerplace is created', async () => {
-      req = { body: { author: 'test' } };
+      req.tokenPayload = { id: '623072ff18d99ceeceb2eb83' };
       RollerPlace.create.mockResolvedValue(mockRollerPlace);
       User.findOneAndUpdate.mockResolvedValue({});
       await controller.insertRollerPlace(req, res, next);
-      expect(res.json).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalled();
     });
   });
 
@@ -171,26 +171,45 @@ describe('Given the Rollerplace controller', () => {
     });
   });
 
-  describe('When addToFavorites functions is triggered', () => {
+  describe('When toggleFavorites functions is triggered', () => {
     test('Then added id on favorites', async () => {
       req = {
-        body: { _id: '6230ac6352811acc96c1ac9a' },
-        params: { id: '622fb6522ce112a7ddb0c657' },
+        tokenPayload: { id: '6230ac6352811acc96c1ac9a' },
+        params: { id: '6230f969748b66926a34966c' },
       };
+
+      User.findById.mockResolvedValue({
+        favorites: ['6230f969748b66926a34966c'],
+      });
       User.findByIdAndUpdate.mockResolvedValue({});
-      await controller.addToFavorites(req, res, next);
-      expect(res.json).toHaveBeenCalled();
+
+      await controller.toggleFavorites(req, res, next);
+      expect(res.status).toHaveBeenCalled();
+    });
+    test('Then NOT added id on favorites', async () => {
+      req = {
+        tokenPayload: { id: '6230ac6352811acc96c1ac9a' },
+        params: { id: '6230f969748b66926a34966c' },
+      };
+
+      User.findById.mockResolvedValue({
+        favorites: ['6230f969748b66926a34966d'],
+      });
+      User.findByIdAndUpdate.mockResolvedValue({});
+
+      await controller.toggleFavorites(req, res, next);
+      expect(res.status).toHaveBeenCalled();
     });
   });
 
-  describe('addToFavorites throw an error)', () => {
+  describe('toggleFavorites throw an error)', () => {
     beforeEach(() => {
       RollerPlace.findByIdAndUpdate.mockImplementation(() => {
         throw new Error('Add to favorites is not possible');
       });
     });
     test('Then call next', async () => {
-      await controller.addToFavorites(req, res, next);
+      await controller.toggleFavorites(req, res, next);
       expect(next).toHaveBeenCalled();
     });
   });
