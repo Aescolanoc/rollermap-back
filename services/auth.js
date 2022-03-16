@@ -5,7 +5,7 @@ dotenv.config();
 export function createToken(user) {
   const tokenPayload = {
     email: user.email,
-    id: user._id,
+    id: user.id,
   };
 
   const secret = process.env.SECRET;
