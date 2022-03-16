@@ -25,7 +25,6 @@ export const login = async (req, resp, next) => {
           token,
           email: userDb.email,
           name: userDb.name,
-          id: userDb._id,
           favorites: userDb.favorites,
           myrollerplaces: userDb.myrollerplaces,
         });
