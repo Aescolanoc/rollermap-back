@@ -30,7 +30,7 @@ describe('Given the login controller', () => {
   });
 
   describe('When login is triggered', () => {
-    describe('And there are not user email ', () => {
+    describe('And there are not email ', () => {
       test('Then call next', async () => {
         req.body = { email: mockUser.email };
         User.findOne.mockReturnValue({ populate: () => Promise.resolve(null) });
@@ -48,7 +48,7 @@ describe('Given the login controller', () => {
       });
     });
 
-    describe('And there are user email or password', () => {
+    describe('And there are email or password', () => {
       beforeEach(() => {
         req.body = { email: mockUser.email, password: mockUser.password };
       });
@@ -88,7 +88,7 @@ describe('Given the login controller', () => {
         });
       });
 
-      describe('And the user email and password are Not OK', () => {
+      describe('And the user email and password are NOT OK', () => {
         test('Then call send', async () => {
           User.findOne.mockReturnValue({
             populate: () => Promise.resolve(mockUser),
