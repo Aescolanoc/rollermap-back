@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
+import { RollerPlace } from '../models/rollerplace.model.js';
 import { User } from '../models/user.model.js';
 
 export async function mongoConnect() {
@@ -24,5 +25,11 @@ export async function mongoDisconnect() {
 export async function installUsers(data) {
   const deleted = await User.deleteMany({});
   const result = await User.insertMany(data);
+  return { result, deleted };
+}
+
+export async function installRollerPlaces(data) {
+  const deleted = await RollerPlace.deleteMany({});
+  const result = await RollerPlace.insertMany(data);
   return { result, deleted };
 }
