@@ -152,10 +152,13 @@ describe('Given the Rollerplace controller', () => {
     test('Then rollerplace is deleted', async () => {
       req = {
         params: { _id: '623072ff18d99ceeceb2eb83' },
+        tokenPayload: { id: '1' },
       };
-      User.findOneAndDelete.mockResolvedValue({});
+      User.findByIdAndDelete.mockResolvedValue({});
+      User.findByIdAndUpdate.mockResolvedValue({});
+      User.updateMany.mockResolvedValue({});
       await controller.deleteRollerPlace(req, res, next);
-      expect(res.json).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalled();
     });
   });
 
