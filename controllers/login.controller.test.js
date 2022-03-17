@@ -6,6 +6,7 @@ import { User } from '../models/user.model.js';
 jest.mock('../models/user.model.js');
 jest.mock('bcryptjs');
 jest.mock('../services/auth.js');
+let mockUser;
 
 describe('Given the login controller', () => {
   let req;
@@ -19,12 +20,20 @@ describe('Given the login controller', () => {
     res.json = jest.fn().mockReturnValue(res);
     res.status = jest.fn().mockReturnValue(res);
     next = jest.fn();
+    mockUser = {
+      name: 'Pepe',
+      email: 'pepe@pepe.es',
+      password: '1234',
+      favorites: [{}],
+      myrollerplaces: [{}],
+    };
   });
 
   describe('When login is triggered', () => {
-    describe('And there are not user email ', () => {
+    describe('And there are not email ', () => {
       test('Then call next', async () => {
-        req.body = { email: 'pepe@pepe.es' };
+        req.body = { email: mockUser.email };
+        User.findOne.mockReturnValue({ populate: () => Promise.resolve(null) });
         await controller.login(req, res, next);
         expect(res.json).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
@@ -32,21 +41,23 @@ describe('Given the login controller', () => {
     });
     describe('And there are not password', () => {
       test('Then call next ', async () => {
-        req.body = { password: '1234' };
+        req.body = { password: mockUser.password };
         await controller.login(req, res, next);
         expect(res.json).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
       });
     });
 
-    describe('And there are user email or password', () => {
+    describe('And there are email or password', () => {
       beforeEach(() => {
-        req.body = { email: 'pepe@pepe.es', password: '12345' };
+        req.body = { email: mockUser.email, password: mockUser.password };
       });
 
       describe('And the user email is not found', () => {
         test('Then call next', async () => {
-          await User.findOne.mockResolvedValue(null);
+          User.findOne.mockReturnValue({
+            populate: () => Promise.resolve(null),
+          });
           await controller.login(req, res, next);
           expect(next).toHaveBeenCalled();
         });
@@ -54,7 +65,10 @@ describe('Given the login controller', () => {
 
       describe('And the password is no correct', () => {
         test('Then call next', async () => {
-          await User.findOne.mockResolvedValue({});
+          User.findOne.mockReturnValue({
+            populate: () => Promise.resolve(null),
+          });
+
           bcrypt.compareSync.mockReturnValue(null);
           await controller.login(req, res, next);
           expect(next).toHaveBeenCalled();
@@ -63,15 +77,27 @@ describe('Given the login controller', () => {
 
       describe('And the user email and password are ok', () => {
         test('Then call send', async () => {
-          const user = {
-            email: 'pepe@pepe.es',
-            id: '1',
-          };
-          await User.findOne.mockResolvedValue(user);
+          User.findOne.mockReturnValue({
+            populate: () => Promise.resolve(mockUser),
+          });
+
           bcrypt.compareSync.mockReturnValue(true);
           createToken.mockReturnValue('mock_token');
           await controller.login(req, res, next);
           expect(res.json).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      describe('And the user email and password are NOT OK', () => {
+        test('Then call send', async () => {
+          User.findOne.mockReturnValue({
+            populate: () => Promise.resolve(mockUser),
+          });
+
+          bcrypt.compareSync.mockReturnValue(false);
+          createToken.mockReturnValue('mock_token');
+          await controller.login(req, res, next);
+          expect(next).toHaveBeenCalled();
         });
       });
     });

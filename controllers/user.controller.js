@@ -7,25 +7,29 @@ export const insertUser = async (req, res, next) => {
     const userData = { ...req.body, password: encryptedpassword };
     const newUser = new User(userData);
     const result = await newUser.save();
-    res.json(result);
-  } catch (err) {
-    next(err);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
   }
 };
 
 export const getUser = async (req, res, next) => {
   try {
-    const resp = await User.findOne({ _id: req.params.id });
-    res.json(resp);
-  } catch (err) {
-    next(err);
+    const resp = await User.findById({ _id: req.tokenPayload.id });
+    res.status(200).json(resp);
+  } catch (error) {
+    next(error);
   }
 };
 
 export const updateUser = async (req, res, next) => {
   try {
-    const resp = await User.findByIdAndUpdate({ _id: req.params.id }, req.body);
-    res.json(resp);
+    const resp = await User.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(resp);
   } catch (error) {
     next(error);
   }

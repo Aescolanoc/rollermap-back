@@ -6,7 +6,11 @@ export const login = async (req, resp, next) => {
   const userToCheck = req.body;
   const loginError = new Error('user or password invalid');
   loginError.status = 401;
-  const userDb = await User.findOne({ email: userToCheck.email });
+
+  const userDb = await User.findOne({ email: userToCheck.email }).populate([
+    'favorites',
+    'myrollerplaces',
+  ]);
 
   if (!userToCheck.email || !userToCheck.password) {
     next(new Error(loginError));
@@ -19,9 +23,9 @@ export const login = async (req, resp, next) => {
         });
         resp.json({
           token,
+          id: userDb._id,
           email: userDb.email,
           name: userDb.name,
-          id: userDb._id,
           favorites: userDb.favorites,
           myrollerplaces: userDb.myrollerplaces,
         });

@@ -9,10 +9,10 @@ import rollerPlacesRouter from './routes/rollerplaces.routes.js';
 dotenv.config();
 import * as dotenv from 'dotenv';
 
-const app = express();
+export const app = express();
 const port = process.env.PORT;
 
-await mongoConnect();
+mongoConnect();
 
 app.use(express.json());
 app.use(morgan('dev'));

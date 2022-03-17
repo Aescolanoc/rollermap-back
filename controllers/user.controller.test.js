@@ -23,26 +23,27 @@ describe('Given the user controller', () => {
   describe('Given the user controller', () => {
     describe('And it not works (promise is rejected)', () => {
       beforeEach(() => {
-        User.find.mockImplementation(() => {
-          throw new Error('Get All Users not possible');
+        User.findById.mockImplementation(() => {
+          throw new Error('Get a User not possible');
         });
       });
       test('Then call next', async () => {
         await controller.getUser(req, res, next);
-        expect(next).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalled();
       });
     });
 
     describe('When getUser is triggered', () => {
       beforeEach(() => {
-        User.find.mockReturnValue({
-          populate: jest.fn().mockResolvedValue([]),
+        User.findById.mockReturnValue({
+          populate: jest.fn().mockResolvedValue({}),
         });
       });
 
       test('Then call send', async () => {
+        req.tokenPayload = { id: '623072ff18d99ceeceb2eb83' };
         await controller.getUser(req, res, next);
-        expect(res.json).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalled();
       });
     });
 
@@ -71,9 +72,11 @@ describe('Given the user controller', () => {
         req.body = { email: 'pepe@pepe.es', password: '1234' };
         bcrypt.hashSync.mockResolvedValue('encrypted1234');
         User.create.mockReturnValue({
+          name: 'Pepe',
           email: 'pepe@pepe.es',
-          password: 'encrypted1234',
-          id: 1,
+          password: '1234',
+          favorites: [],
+          myrollerplaces: [],
         });
         createToken.mockReturnValue('mock_token');
       });
@@ -87,6 +90,19 @@ describe('Given the user controller', () => {
       test('Then call send', async () => {
         await controller.updateUser(req, res, next);
         expect(res.json).toBeTruthy();
+      });
+    });
+
+    describe('When updateUser function is called', () => {
+      beforeEach(() => {
+        User.findByIdAndUpdate.mockImplementation(() => {
+          throw new Error('Get User is not possible');
+        });
+      });
+      test('Then call next', async () => {
+        await controller.updateUser(req, res, next);
+
+        expect(next).toHaveBeenCalled();
       });
     });
   });
