@@ -46,7 +46,8 @@ export const updateRollerPlace = async (req, res, next) => {
   try {
     const resp = await RollerPlace.findByIdAndUpdate(
       { _id: req.params.id },
-      req.body
+      req.body,
+      { new: true }
     );
     res.status(200).json(resp);
   } catch (error) {
