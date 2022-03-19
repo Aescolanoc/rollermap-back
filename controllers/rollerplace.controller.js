@@ -1,5 +1,6 @@
 import { RollerPlace } from '../models/rollerplace.model.js';
 import { User } from '../models/user.model.js';
+import { createError } from '../services/errors.js';
 
 export const getAllRollerPlaces = async (req, res, next) => {
   try {
@@ -26,10 +27,9 @@ export const insertRollerPlace = async (req, res, next) => {
     await User.findByIdAndUpdate(req.tokenPayload.id, {
       $push: { myrollerplaces: result._id },
     });
-
     res.status(201).json(result);
   } catch (error) {
-    next(error);
+    next(createError(error));
   }
 };
 
@@ -76,7 +76,7 @@ export const deleteRollerPlace = async (req, res, next) => {
 
 export const toggleFavorites = async (req, res, next) => {
   try {
-    let foundUser = await User.findById({ _id: req.tokenPayload.id });
+    let foundUser = await User.findById(req.tokenPayload.id);
     const processedFavorites = foundUser.favorites.map((e) => e.toString());
     const isInFavorites = processedFavorites.some((e) => e === req.params.id);
     let updatedUser;
@@ -101,6 +101,6 @@ export const toggleFavorites = async (req, res, next) => {
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    next(error);
+    next(createError(error));
   }
 };
