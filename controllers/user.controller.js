@@ -1,5 +1,6 @@
 import { User } from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
+import { createError } from '../services/errors.js';
 
 export const insertUser = async (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ export const insertUser = async (req, res, next) => {
     const result = await newUser.save();
     res.status(201).json(result);
   } catch (error) {
-    next(error);
+    next(createError(error));
   }
 };
 
