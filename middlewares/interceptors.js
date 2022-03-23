@@ -3,6 +3,7 @@ import { verifyToken } from '../services/auth.js';
 
 export const loginRequired = (req, res, next) => {
   const authorization = req.get('authorization');
+  console.log(authorization);
   let token;
   const tokenError = new Error('token missing or invalid');
   tokenError.status = 401;

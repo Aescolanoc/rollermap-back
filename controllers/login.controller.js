@@ -11,7 +11,7 @@ export const login = async (req, resp, next) => {
     next(loginError);
   } else {
     const userDb = await User.findOne({ email: userToCheck.email }).populate([
-      'favorites',
+
       'myrollerplaces',
     ]);
     if (!userDb) {

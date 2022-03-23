@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export const rollerplaceSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  desciption: { type: String, required: true },
+  description: { type: String, required: true },
   location: { type: Array, required: true },
   type: { type: String, required: true },
   slalom: { type: Boolean, required: true },

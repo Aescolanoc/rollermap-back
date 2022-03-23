@@ -2,7 +2,7 @@ export default {
   rollerplace: [
     {
       name: 'Paseo de coches - Retiro',
-      desciption: 'Pista muy popular entre los rollers, rodeada de naturaleza',
+      description: 'Pista muy popular entre los rollers, rodeada de naturaleza',
       location: [-3.68307, 40.41317],
       type: 'pista',
       slalom: true,

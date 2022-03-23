@@ -15,7 +15,7 @@ router.get('/', loginRequired, getAllRollerPlaces);
 router.post('/', loginRequired, insertRollerPlace);
 router.get('/myrollerplaces', loginRequired, getMyRollerPlaces);
 router.get('/:id', loginRequired, getRollerPlaceDetails);
-router.patch('/:id', loginRequired, toggleFavorites);
+router.put('/favorites/:id', loginRequired, toggleFavorites);
 router.put('/:id', loginRequired, isAuthor, updateRollerPlace);
 router.delete('/:id', loginRequired, isAuthor, deleteRollerPlace);
 

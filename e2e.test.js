@@ -94,7 +94,7 @@ describe('Given app', () => {
           .post('/rollerplaces')
           .send({
             name: 'Paseo de coches - Retiro',
-            desciption:
+            description:
               'Pista muy popular entre los rollers, rodeada de naturaleza',
             location: [-3.68307, 40.41317],
             type: 'pista',
@@ -139,7 +139,7 @@ describe('Given app', () => {
           .put(`/rollerplaces/${rollerplaceId}`)
           .send({
             name: 'Paseo de coches - Retiro MODIFICADA',
-            desciption:
+            description:
               'Pista muy popular entre los rollers, rodeada de naturaleza',
             location: [-3.68307, 40.41317],
             type: 'pista',
