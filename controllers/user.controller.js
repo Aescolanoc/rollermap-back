@@ -17,7 +17,13 @@ export const insertUser = async (req, res, next) => {
 export const getUser = async (req, res, next) => {
   try {
     const resp = await User.findById({ _id: req.tokenPayload.id });
-    res.status(200).json(resp);
+    res.status(200).json({
+        _id: resp._id,
+        email: resp.email,
+        name: resp.name,
+        favorites: resp.favorites,
+        myrollerplaces: resp.myrollerplaces,
+      });
   } catch (error) {
     next(error);
   }
