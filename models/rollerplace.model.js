@@ -4,10 +4,11 @@ export const rollerplaceSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   location: { type: Array, required: true },
+  trace: { type: Array },
   type: { type: String, required: true },
   slalom: { type: Boolean, required: true },
   city: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String },
   level: { type: String, required: true },
   author: {
     type: mongoose.Types.ObjectId,

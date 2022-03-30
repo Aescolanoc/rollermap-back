@@ -4,6 +4,7 @@ export default {
       name: 'Paseo de coches - Retiro',
       description: 'Pista muy popular entre los rollers, rodeada de naturaleza',
       location: [-3.68307, 40.41317],
+      trace:[],
       type: 'pista',
       slalom: true,
       city: 'Madrid',
