@@ -17,6 +17,7 @@ mongoConnect();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.options('*', cors());
 
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
