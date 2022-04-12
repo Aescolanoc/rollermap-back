@@ -24,12 +24,12 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use(cors());
-
+app.options('*', cors())
 // app.use(cors(corsOptions));
 
-// loginRouter.all('*', cors(corsOptions));
-// usersRouter.all('*', cors(corsOptions));
-// rollerPlacesRouter.all('*', cors(corsOptions));
+loginRouter.all('*', cors());
+usersRouter.all('*', cors());
+rollerPlacesRouter.all('*', cors());
 
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
