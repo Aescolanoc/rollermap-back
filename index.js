@@ -17,7 +17,10 @@ mongoConnect();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-app.options('*', cors());
+
+loginRouter.all('*', cors());
+usersRouter.all('*', cors());
+rollerPlacesRouter.all('*', cors());
 
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
