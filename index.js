@@ -14,19 +14,22 @@ const port = process.env.PORT;
 
 mongoConnect();
 
-const corsOptions = {
-  credentials: true,
-  preflightContinue: true,
-  methods: ['GET', 'POST' , 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  origin: true
-}
+// const corsOptions = {
+//   credentials: true,
+//   preflightContinue: true,
+//   methods: ['GET', 'POST' , 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//   origin: true
+// }
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors(corsOptions));
 
-loginRouter.all('*', cors(corsOptions));
-usersRouter.all('*', cors(corsOptions));
-rollerPlacesRouter.all('*', cors(corsOptions));
+app.use(cors());
+
+// app.use(cors(corsOptions));
+
+// loginRouter.all('*', cors(corsOptions));
+// usersRouter.all('*', cors(corsOptions));
+// rollerPlacesRouter.all('*', cors(corsOptions));
 
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
