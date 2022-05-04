@@ -21,9 +21,9 @@ describe('Given the login controller', () => {
     res.status = jest.fn().mockReturnValue(res);
     next = jest.fn();
     mockUser = {
-      name: 'Pepe',
-      email: 'pepe@pepe.es',
-      password: '1234',
+      name: 'GermanTest',
+      email: 'german@test.es',
+      password: 'pass',
       favorites: [{}],
       myrollerplaces: [{}],
     };

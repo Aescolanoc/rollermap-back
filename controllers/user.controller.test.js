@@ -69,12 +69,12 @@ describe('Given the user controller', () => {
 
     describe('And it works (promise is resolved)', () => {
       beforeEach(() => {
-        req.body = { email: 'pepe@pepe.es', password: '1234' };
-        bcrypt.hashSync.mockResolvedValue('encrypted1234');
+        req.body = { email: 'german@test.es', password: 'pass' };
+        bcrypt.hashSync.mockResolvedValue('encryptedpass');
         User.create.mockReturnValue({
-          name: 'Pepe',
-          email: 'pepe@pepe.es',
-          password: '1234',
+          name: 'German',
+          email: 'german@test.es',
+          password: 'pass',
           favorites: [],
           myrollerplaces: [],
         });
