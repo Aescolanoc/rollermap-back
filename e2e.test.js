@@ -25,7 +25,7 @@ describe('Given app', () => {
         const response = await request(app).post('/users').send({
           name: 'German',
           email: 'german@test.es',
-          password: '1234',
+          password: 'pass',
           favorites: [],
           myrollerplaces: [],
         });
@@ -39,7 +39,7 @@ describe('Given app', () => {
       test('It returns status 200', async () => {
         const response = await request(app).post('/login').send({
           email: 'german@test.es',
-          password: '1234',
+          password: 'pass',
         });
         idUser = response.body.id;
         tokenUser = response.body.token;

@@ -1,9 +1,9 @@
 export default {
   users: [
     {
-      name: 'Pepe',
-      email: 'pepe@pepe.es',
-      password: '1234',
+      name: 'German',
+      email: 'german@test.es',
+      password: 'pass',
       favorites: [],
       myrollerplaces: [],
     },
